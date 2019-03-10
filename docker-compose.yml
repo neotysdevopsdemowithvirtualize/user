@@ -11,9 +11,9 @@ services:
             - NET_BIND_SERVICE
         read_only: true
         environment:
-            - MONGO_HOST=user-db:27017
-            - reschedule=on-node-failure
-			- DT_CUSTOM_PROP=app=user,environment=dev
+          - MONGO_HOST=user-db:27017
+          - reschedule=on-node-failure
+          - DT_CUSTOM_PROP=app=user,environment=dev
         ports:
             - "8087:80"
     user-db:
@@ -27,8 +27,8 @@ services:
             - SETGID
             - SETUID
         read_only: true
-		environment:
-			- DT_CUSTOM_PROP=app=user-db,environment=dev
+        environment:
+          - DT_CUSTOM_PROP=app=user-db,environment=dev
         tmpfs:
             - /tmp:rw,noexec,nosuid
         environment:
