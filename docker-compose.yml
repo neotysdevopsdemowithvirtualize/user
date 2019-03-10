@@ -15,7 +15,7 @@ services:
             - reschedule=on-node-failure
 			- DT_CUSTOM_PROP=app=user,environment=dev
         ports:
-            - "8082:80"
+            - "8087:80"
     user-db:
         image: TAGDB_TO_REPLACE
         hostname: user-db
