@@ -78,22 +78,7 @@ pipeline {
 
         }
     }
-    stage('Docker push to registry'){
-      when {
-        expression {
-          return env.BRANCH_NAME ==~ 'release/.*' || env.BRANCH_NAME ==~'master'
-        }
-      }
-      steps {
-        container('docker') {
-          withCredentials([usernamePassword(credentialsId: 'registry-creds', passwordVariable: 'TOKEN', usernameVariable: 'USER')]) {
-            sh "docker login --username=anything --password=${TOKEN} ${env.DOCKER_REGISTRY_URL}:5000"
-            sh "docker tag ${_TAG_DEV} ${_TAG_DEV}"
-            sh "docker push ${_TAG_DEV}"
-          }
-        }
-      }
-    }
+
     stage('Deploy to dev namespace') {
         steps {
             sh "sed -i 's,TAG_TO_REPLACE,${TAG_DEV},'  $WORKSPACE/docker-compose.yml"
