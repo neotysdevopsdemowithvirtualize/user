@@ -1,4 +1,4 @@
-FROM golang:1.7-alpine
+FROM golang:1.7
 ENV sourcesdir /go/src/github.com/microservices-demo/user/
 ENV MONGO_HOST mytestdb:27017
 ENV HATEAOS user

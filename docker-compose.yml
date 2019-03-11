@@ -13,7 +13,7 @@ services:
         environment:
           - MONGO_HOST=user-db:27017
           - reschedule=on-node-failure
-          - DT_CUSTOM_PROP=app=user,environment=dev
+          - DT_CUSTOM_PROP=app=user environment=dev
         ports:
             - "8087:80"
     user-db:
@@ -28,7 +28,7 @@ services:
             - SETUID
         read_only: true
         environment:
-          - DT_CUSTOM_PROP=app=user-db,environment=dev
+          - DT_CUSTOM_PROP=app=user-db environment=dev
         tmpfs:
             - /tmp:rw,noexec,nosuid
         environment:
