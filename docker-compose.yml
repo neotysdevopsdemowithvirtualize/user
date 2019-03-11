@@ -27,11 +27,10 @@ services:
             - SETGID
             - SETUID
         read_only: true
-        environment:
-          - DT_CUSTOM_PROP=app=user-db environment=dev
         tmpfs:
             - /tmp:rw,noexec,nosuid
         environment:
             - reschedule=on-node-failure
+            - DT_CUSTOM_PROP=app=user-db environment=dev
         ports:
             - "27017:27017"
