@@ -142,7 +142,7 @@ pipeline {
                       project: "$WORKSPACE/test/neoload/load_template/load_template.nlp",
                       testName: 'HealthCheck_user_${VERSION}_${BUILD_NUMBER}',
                       testDescription: 'HealthCheck_user_${VERSION}_${BUILD_NUMBER}',
-                      commandLineOption: "-project $WORKSPACE/test/neoload/user_neoload.yaml -nlweb -loadGenerators $WORKSPACE/infrastructure/infrastructure/neoload/lg/lg.yaml -nlwebToken $NLAPIKEY -variables host=${env.APP_NAME},port=80",
+                      commandLineOption: "-project $WORKSPACE/test/neoload/user_neoload.yaml -nlweb -L BasicCheck=$WORKSPACE/infrastructure/infrastructure/neoload/lg/remote.txt -L Population_Dynatrace_Integration=$WORKSPACE/infrastructure/infrastructure/neoload/lg/local.txt -nlwebToken $NLAPIKEY -variables host=${env.APP_NAME},port=80",
                       scenario: 'BasicCheck', sharedLicense: [server: 'NeoLoad Demo License', duration: 2, vuCount: 200],
                       trendGraphs: [
                               [name: 'Limit test Catalogue API Response time', curve: ['CatalogueList>Actions>Get Catalogue List'], statistic: 'average'],
@@ -162,13 +162,23 @@ pipeline {
         }
       steps {
 
+         sh "sed -i 's/CHECK_TO_REPLACE/${BASICCHECKURI}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+         sh "sed -i 's/CUSTOMER_TO_REPLACE/${CUSTOMERURI}/' $WORKSPACE/test/neoload/user_neoload.yaml"
+         sh "sed -i 's/CARDS_TO_REPLACE/${CARDSURI}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+         sh "sed -i 's/HOST_TO_REPLACE/${env.APP_NAME}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+         sh "sed -i 's/PORT_TO_REPLACE/80/' $WORKSPACE/test/neoload/user_neoload.yaml"
+         sh "sed -i 's/DTID_TO_REPLACE/${DYNATRACEID}/' $WORKSPACE/test/neoload/user_neoload.yaml"
+         sh "sed -i 's/APIKEY_TO_REPLACE/${DYNATRACEAPIKEY}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+         sh "sed -i 's,JSONFILE_TO_REPLACE,$WORKSPACE/monspec/user_anomalieDection.json,' $WORKSPACE/test/neoload/user_neoload.yaml"
+         sh "sed -i 's/TAGS_TO_REPLACE/${NL_DT_TAG}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+         sh "sed -i 's,OUTPUTFILE_TO_REPLACE,$WORKSPACE/infrastructure/sanitycheck.json,' $WORKSPACE/test/neoload/user_neoload.yaml"
 
           script {
               neoloadRun executable: '/home/neoload/neoload/bin/NeoLoadCmd',
                       project: "$WORKSPACE/test/neoload/load_template/load_template.nlp",
                       testName: 'DynatraceSanityCheck_user_${VERSION}_${BUILD_NUMBER}',
                       testDescription: 'DynatraceSanityCheck_user_${VERSION}_${BUILD_NUMBER}',
-                      commandLineOption: "-project $WORKSPACE/test/neoload/user_neoload.yaml -nlweb -loadGenerators $WORKSPACE/infrastructure/infrastructure/neoload/lg/lg.yaml -variables host=${env.APP_NAME},port=80 -nlwebToken $NLAPIKEY ",
+                      commandLineOption: "-project $WORKSPACE/test/neoload/user_neoload.yaml -nlweb -L  Population_Dynatrace_SanityCheck=$WORKSPACE/infrastructure/infrastructure/neoload/lg/local.txt -variables host=${env.APP_NAME},port=80 -nlwebToken $NLAPIKEY ",
                       scenario: 'DYNATRACE_SANITYCHECK', sharedLicense: [server: 'NeoLoad Demo License', duration: 2, vuCount: 200],
                       trendGraphs: [
                               [name: 'Limit test Catalogue API Response time', curve: ['CatalogueList>Actions>Get Catalogue List'], statistic: 'average'],
@@ -202,13 +212,23 @@ pipeline {
         }
 
       steps {
+          sh "sed -i 's/CHECK_TO_REPLACE/${BASICCHECKURI}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+          sh "sed -i 's/CUSTOMER_TO_REPLACE/${CUSTOMERURI}/' $WORKSPACE/test/neoload/user_neoload.yaml"
+          sh "sed -i 's/CARDS_TO_REPLACE/${CARDSURI}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+          sh "sed -i 's/HOST_TO_REPLACE/${env.APP_NAME}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+          sh "sed -i 's/PORT_TO_REPLACE/80/' $WORKSPACE/test/neoload/user_neoload.yaml"
+          sh "sed -i 's/DTID_TO_REPLACE/${DYNATRACEID}/' $WORKSPACE/test/neoload/user_neoload.yaml"
+          sh "sed -i 's/APIKEY_TO_REPLACE/${DYNATRACEAPIKEY}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+          sh "sed -i 's,JSONFILE_TO_REPLACE,$WORKSPACE/monspec/user_anomalieDection.json,' $WORKSPACE/test/neoload/user_neoload.yaml"
+          sh "sed -i 's/TAGS_TO_REPLACE/${NL_DT_TAG}/'  $WORKSPACE/test/neoload/user_neoload.yaml"
+          sh "sed -i 's,OUTPUTFILE_TO_REPLACE,$WORKSPACE/infrastructure/sanitycheck.json,' $WORKSPACE/test/neoload/user_neoload.yaml"
 
           script {
               neoloadRun executable: '/home/neoload/neoload/bin/NeoLoadCmd',
                       project: "$WORKSPACE/test/neoload/load_template/load_template.nlp",
                       testName: 'FuncCheck_user_${VERSION}_${BUILD_NUMBER}',
                       testDescription: 'FuncCheck_user_${VERSION}_${BUILD_NUMBER}',
-                      commandLineOption: "-project  $WORKSPACE/test/neoload/user_neoload.yaml -nlweb -loadGenerators $WORKSPACE/infrastructure/infrastructure/neoload/lg/lg.yaml -nlwebToken $NLAPIKEY -variables host=user,port=80",
+                      commandLineOption: "-project  $WORKSPACE/test/neoload/user_neoload.yaml -nlweb -L UserLoad=$WORKSPACE/infrastructure/infrastructure/neoload/lg/remote.txt -L Population_Dynatrace_Integration=$WORKSPACE/infrastructure/infrastructure/neoload/lg/local.txt -nlwebToken $NLAPIKEY -variables host=user,port=80",
                       scenario: 'UserLoad', sharedLicense: [server: 'NeoLoad Demo License', duration: 2, vuCount: 200],
                       trendGraphs: [
                               [name: 'Limit test Catalogue API Response time', curve: ['CatalogueList>Actions>Get Catalogue List'], statistic: 'average'],
