@@ -20,7 +20,7 @@ pipeline {
     NEOLOAD_ASCODEFILE="$WORKSPACE/test/neoload/user_neoload.yaml"
     NEOLOAD_ANOMALIEDETECTIONFILE="$WORKSPACE/monspec/user_anomalieDection.json"
     BASICCHECKURI="health"
-    CUSTOMERURI="customer"
+    CUSTOMERURI="customers"
     CARDSURI="cards"
     GROUP = "neotysdevopsdemo"
     COMMIT = "DEV-${VERSION}"
