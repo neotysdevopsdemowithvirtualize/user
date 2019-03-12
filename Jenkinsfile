@@ -244,7 +244,7 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'TOKEN', usernameVariable: 'USER')]) {
                 sh "docker login --username=${USER} --password=${TOKEN}"
 
-                sh "docker tag $TAG_DEV} ${TAG_STAGING}"
+                sh "docker tag ${TAG_DEV} ${TAG_STAGING}"
                 sh "docker push ${TAG_STAGING}"
                 sh "docker tag ${TAG}-db:${COMMIT} ${TAG}-db-stagging:${VERSION}"
                 sh "docker push ${TAG}-db-stagging:${VERSION}"
